@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Bodega;
+use App\Models\Vino;
 use Illuminate\Http\Request;
 
 class BodegaController extends Controller
@@ -28,15 +29,30 @@ class BodegaController extends Controller
      */
     public function store(Request $request)
     {
-        //
+
+        Bodega::create( 
+            $request->validate([
+                "nombre" => "required",
+                "localizacion" => "required",
+                "telefono" => "required",
+                "email" => "required|email",
+                "dispone" => "required|boolean"
+            ])
+        );
+
+        return redirect(route("bodegas.index"));
     }
 
-    /**
-     * Display the specified resource.
-     */
+    public function showStore()
+    {
+        return view("bodega.store");
+    }
     public function show(Bodega $bodega)
     {
-        //
+        return view("bodega.show", [ 
+            "bodega" => $bodega,
+            "vinos" => $bodega->vinos
+        ]);
     }
 
     /**
@@ -52,7 +68,17 @@ class BodegaController extends Controller
      */
     public function update(Request $request, Bodega $bodega)
     {
-        //
+        $bodega->update(
+            $request->validate([
+                "nombre" => "required",
+                "localizacion" => "required",
+                "telefono" => "required",
+                "email" => "required|email",
+                "dispone" => "required|boolean"
+            ])
+        );
+
+        return redirect(route("bodega.show", $bodega->id));
     }
 
     /**
@@ -61,6 +87,6 @@ class BodegaController extends Controller
     public function destroy(Bodega $bodega)
     {
         $bodega->delete();
-        return redirect(route("bodegas.show"));
+        return redirect(route("bodegas.index"));
     }
 }

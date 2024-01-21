@@ -9,5 +9,5 @@ class Vino extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['nombre', 'localizacion', 'telefono', 'email'];
+    protected $fillable = ["nombre", "tipo", "bodega_id"];
 }

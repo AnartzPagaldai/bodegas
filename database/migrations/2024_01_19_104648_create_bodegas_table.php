@@ -15,8 +15,10 @@ return new class extends Migration
             $table->id();
             $table->string("nombre");
             $table->string("localizacion");
+            $table->boolean("dispone");
             $table->string("telefono");
             $table->string("email");
+            $table->timestamps();
         });
     }
 

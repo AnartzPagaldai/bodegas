@@ -6,6 +6,7 @@
     <title>Document</title>
 </head>
 <body>
+    <a href={{route("bodega.store")}}>+ añadir bodega</a>
     <table>
         <tr>
             <th>Nombre</th>
@@ -22,10 +23,13 @@
                 <td>{{ $bodega->telefono }}</td>
                 <td>{{ $bodega->email }}</td>
                 <td>
-                    <form action=""><input type="submit"></form>
-                    <form action={{ route("bodega.delete", $bodega->id) }} method="post> 
+                    <form action={{ route("bodega.show", $bodega->id)}}>
+                        <input type="submit" value="Entrar">
+                    </form>
+                    <?php ?>
+                    <form action={{ route("bodega.delete", $bodega->id) }} method="post"> 
                         @csrf
-                        <input type="submit" value="borrar" >
+                        <input type="submit" value="Borrar" >
                     </form>
                 </td>
             </tr>

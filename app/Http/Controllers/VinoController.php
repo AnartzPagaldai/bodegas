@@ -12,7 +12,6 @@ class VinoController extends Controller
      */
     public function index()
     {
-        //
     }
 
     /**
@@ -26,17 +25,30 @@ class VinoController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function showStore(string $idBodega)
     {
-        //
+        return view("vino.store", ["idBodega" => $idBodega]);
+    }
+    public function store(Request $request, $idBodega)
+    {
+        $validate = $request->validate([
+            "nombre" => "required",
+            "tipo" => "required"
+        ]);
+
+        $validate["bodega_id"] = $idBodega;
+
+        Vino::create($validate);
+
+        return redirect(route("bodega.show", $idBodega));
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Vino $vino)
+    public function show(Vino $vino, $idBodega)
     {
-        //
+        return view("vino.show", ["vino" => $vino, "idBodega" => $idBodega]);
     }
 
     /**
@@ -50,16 +62,24 @@ class VinoController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Vino $vino)
+    public function update(Request $request, Vino $vino, $idBodega)
     {
-        //
+        $validate = $request->validate([
+            "nombre" => "required",
+            "tipo" => "required"
+        ]);
+
+        $vino->update($validate);
+
+        return redirect(route("bodega.show", $idBodega));
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Vino $vino)
+    public function destroy(Vino $vino, $idBodega)
     {
-        //
+        $vino->delete();
+        return redirect(route("bodega.show", $idBodega));
     }
 }
